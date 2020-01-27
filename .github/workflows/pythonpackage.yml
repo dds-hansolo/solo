@@ -37,14 +37,14 @@ jobs:
       working-directory: ./backend
       run: |
         bandit -r ./
-    - name: move shit
-      run: |
-       mv -v ./backend/* ./
-       mv -v requirements/* ./
-    - name: Run Snyk to check for vulnerabilities
-      uses: snyk/actions/node@master
+    - uses: actions/setup-node@v1
       with:
-        args: --file=requirements.dev.txt --package-manager=pip
+         node-version: '12.0.3'
+    - name: Install and run snyk
+      working-directory: ./backend
+      run: |
+          npm install snyk
+          snyk test --file=./requirements/requirements.dev.txt --package-manager=pip
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         CI: true
