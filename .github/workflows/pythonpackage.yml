@@ -41,6 +41,7 @@ jobs:
       working-directory: ./backend
       run: |
        mv -v ./* ../
+       mv -v ./requirements/* ./
     - name: Run Snyk to check for vulnerabilities
       uses: snyk/actions/node@master
       with:
