@@ -20,11 +20,10 @@ jobs:
       working-directory: ./backend
       run: |
         pip install -U "pip>20.0.1"
-        pip install -r requirements/requirements.dev.txt --user
+        pip install -r requirements/requirements.dev.txt
     - name: Running linting
       working-directory: ./backend
       run: |
-        pip install pylint
         pylint backend
     - name: Runnig style checking
       working-directory: ./backend
