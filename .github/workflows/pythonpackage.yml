@@ -44,7 +44,7 @@ jobs:
     - name: Install and run snyk
       working-directory: ./backend
       run: |
-          npm install snyk
+          npm install -g snyk
           snyk auth $SNYK_TOKEN
           snyk test --file=./requirements/requirements.dev.txt --package-manager=pip
       env:
