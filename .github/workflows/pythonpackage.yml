@@ -41,6 +41,8 @@ jobs:
       run: |
         mv -v ./backend/* ./
         mv -v ./requirements/* ./
+        ls
+        pwd
     - name: Run Snyk to check for vulnerabilities
       uses: snyk/actions/node@master
       with:
