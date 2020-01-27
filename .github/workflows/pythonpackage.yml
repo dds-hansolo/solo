@@ -39,7 +39,7 @@ jobs:
         bandit -r ./
     - name: move shit
       working-directory: ./backend
-     run: |
+      run: |
        mv -v ./* ../
     - name: Run Snyk to check for vulnerabilities
       uses: snyk/actions/node@master
