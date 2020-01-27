@@ -39,8 +39,8 @@ jobs:
         bandit -r ./
     - name: movin stuff
       run: |
-        mv  -v ./backend/* ./
-        touch requirements.txt
+        mv -v ./backend/* ./
+        mv -v ./requirements/* ./
     - name: Run Snyk to check for vulnerabilities
       uses: snyk/actions/node@master
       with:
