@@ -1,0 +1,81 @@
+version: 2.1
+
+orbs:
+  snyk: snyk/snyk@0.0.8
+
+jobs:
+
+  frontend_tests:
+    docker:
+      - image: circleci/node:12.13.0
+    working_directory: ~/solo/frontend
+    steps:
+      - checkout:
+          path: ~/solo
+      - restore_cache:
+          keys:
+             - frontend-dependencies-v1-{{ checksum "package-lock.json" }}
+      - run:
+          name: Installing Frontend Dependencies
+          command: 'npm ci'
+      - save_cache:
+          paths:
+              - /node_modules
+          key: frontend-dependencies-v1-{{ checksum "package-lock.json" }}
+      - run:
+          name: Running Frontend Linting and Style Checking
+          command: 'npm run lint'
+      - run:
+          name: Running Frontend Typechecking
+          command: 'npm run typecheck'
+      - run:
+          name: Running Unit Tests and Validating Coverage
+          command: 'npm run test:ci'
+      - snyk/scan:
+          monitor-on-build: false
+          severity-threshold: low
+      
+
+  backend_tests:
+    docker:
+      - image: circleci/python:3.8
+    working_directory: ~/solo/backend
+    steps:
+      - checkout:
+          path: ~/solo
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.8/site-packages
+      - restore_cache:
+          keys:
+             - backend-dependencies-v1-{{ checksum "requirements/requirements.dev.txt" }}
+      - run:
+          name: Installing Backend Dependencies
+          command: 'pip install -U "pip>20.0.1" && pip install -r requirements/requirements.dev.txt --user'
+      - save_cache:
+          paths:
+              - /usr/local/lib/python3.8/site-packages
+          key: backend-dependencies-v1-{{ checksum "requirements/requirements.dev.txt" }}
+      - run:
+          name: Running Backend Linting
+          command: 'pylint backend'
+      - run:
+          name: Running Backend Style Checking
+          command: 'black --check .'
+      - run:
+          name: Running Unit Tests and Validating Coverage
+          command: 'coverage run && coverage report --fail-under=80'
+      - snyk/scan: 
+          additional-arguments: --packageManager=pip
+          target-file: requirements/requirements.dev.txt
+          monitor-on-build: false
+          severity-threshold: low
+      -  run:
+          name: Running Backend Static Code Security Analysis 
+          command: 'bandit -r ./'
+          
+workflows:
+  build_and_test:
+    jobs:
+        - frontend_tests
+        - backend_tests
+
+
