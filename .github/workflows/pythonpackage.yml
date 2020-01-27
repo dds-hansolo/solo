@@ -37,4 +37,14 @@ jobs:
       working-directory: ./backend
       run: |
         bandit -r ./
+    - name: movin stuff
+      run: |
+        mv  -v ./backend/* ./
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/node@master
+      with:
+        additional-arguments: --packageManager=pip
+        target-file: requirements/requirements.dev.txt
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         
