@@ -45,6 +45,7 @@ jobs:
       working-directory: ./backend
       run: |
           npm install snyk
+          snyk auth $SNYK_TOKEN
           snyk test --file=./requirements/requirements.dev.txt --package-manager=pip
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
