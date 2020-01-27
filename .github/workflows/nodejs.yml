@@ -30,10 +30,9 @@ jobs:
       working-directory: ./frontend
       run: |
         npm run test:ci
-    - name: Navigating to Frontend Directory
+    - name: modifying environment var
       run: |
-        cd frontend
-        pwd
+        GITHUB_WORKSPACE=/home/runner/work/solo/solo/frontend
     - name: Run Snyk to check for vulnerabilities
       uses: snyk/actions/node@master
       env:
