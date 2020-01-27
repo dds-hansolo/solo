@@ -30,10 +30,11 @@ jobs:
       working-directory: ./frontend
       run: |
         npm run test:ci
+    - name: Navigating to Frontend Directory
+      run: |
+        cd frontend
     - name: Run Snyk to check for vulnerabilities
       uses: snyk/actions/node@master
-      with:
-        path: ./frontend
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         CI: true
