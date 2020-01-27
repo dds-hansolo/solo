@@ -46,7 +46,7 @@ jobs:
     - name: Run Snyk to check for vulnerabilities
       uses: snyk/actions/node@master
       with:
-        args: --dev --package-manager=pip
+        args: --dev 
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         
