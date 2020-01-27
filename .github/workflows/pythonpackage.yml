@@ -24,8 +24,7 @@ jobs:
     - name: Running linting
       working-directory: ./backend
       run: |
-        ls
-        pwd
+        pip install pylint
         pylint backend
     - name: Runnig style checking
       working-directory: ./backend
