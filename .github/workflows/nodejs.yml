@@ -33,6 +33,7 @@ jobs:
     - name: Navigating to Frontend Directory
       run: |
         cd frontend
+        pwd
     - name: Run Snyk to check for vulnerabilities
       uses: snyk/actions/node@master
       env:
