@@ -30,11 +30,10 @@ jobs:
       working-directory: ./frontend
       run: |
         npm run test:ci
-    - name: modifying environment var
-      run: |
-        GITHUB_WORKSPACE=/home/runner/work/solo/solo/frontend
     - name: Run Snyk to check for vulnerabilities
       uses: snyk/actions/node@master
+      with:
+        file: ./frontend/package.json 
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         CI: true
