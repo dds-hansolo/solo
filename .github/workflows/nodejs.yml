@@ -33,7 +33,7 @@ jobs:
     - name: Run Snyk to check for vulnerabilities
       uses: snyk/actions/node@master
       with:
-        file: ./frontend/package.json 
+        workdir: /github/workspace/frontend
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         CI: true
